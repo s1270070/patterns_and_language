@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+</head>
+<body>
+  <!-- value1 -->
+  <div>
+    <label>Input value 1</label>
+    <input type="text" value="Price of bananas in 2021">
+  </div>
+  <!-- value2 -->
+  <div>
+    <label>Input value 2</label>
+    <input type="text" value="January">
+  </div>
+  <!-- value3 -->
+  <div>
+    <label>Input value 3</label>
+    <input type="text" value="100 yen">
+  </div>
+  <!-- value4 -->
+  <div>
+    <label>Input value 4</label>
+    <input type="text" value="February">
+  </div>
+  <!-- value5 -->
+  <div>
+    <label>Input value 5</label>
+    <input type="text" value="120 yen">
+  </div>
+  <!-- Pressing this button will execute the JavaScript. -->
+  <button id="push-btn">PUSH</button>
+  <!-- This is a result area. -->
+  <div>
+    <textarea id="result" cols="40" rows="5" readonly style="width: 100%;"></textarea>
+  </div>
+</body>
+<!-- <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script> -->
+<style type="text/css">
+  input {width: 20rem;}
+</style>
+<script>
+  const inputElements = document.querySelectorAll('input');
+  const resultElement = document.getElementById('result');
+  const button = document.getElementById('push-btn');
+
+  /**
+   * to upper case first character.
+   */
+  function toFirstUpper(s) {
+    return `${s.charAt(0).toUpperCase()}${s.slice(1)}`;
+  }
+
+  /**
+   * get appropriate verb from values.
+   */
+  function getVerb(v1, v2) {
+    if (v1 === v2) return 'remained flat';
+    else if (v1 < v2) return 'increased by $diff';
+    else if (v1 > v2) return 'decreased by $diff';
+  }
+
+  /**
+   * get appropriate term from values.
+   */
+  function getTerm(v1, v2, start, end) {
+    if (v1 === v2) return `between ${start} and ${end}`;
+    else return `from ${start} to ${end}`;
+  }
+
+  /**
+   * create appropriate sentence from 5 values
+   */
+  function createSentence(values) {
+    const contentStrucuture = '$subject $verb $term.';
+    // get number from value.
+    const num1 = Number(values[2].match(/\d+/));
+    const num2 = Number(values[4].match(/\d+/));
+
+    return contentStrucuture
+        // to upper case first character and replace.
+        .replace('$subject', toFirstUpper(values[0]))
+        // get verb and replace.
+        .replace('$verb', getVerb(num1, num2))
+        // create difference of 2 numbers and replace.
+        .replace('$diff', Math.abs(num2 - num1) + values[2].match(/\D+/))
+        // get term and replace.
+        .replace('$term', getTerm(num1, num2, values[1], values[3]));
+  }
+
+  button.addEventListener('click', e => {
+    // get 5 values.
+    const values = Array.from(inputElements).map(e => e.value);
+
+    // if not exist 5 values, reinput values.
+    if (values.some(e => e === '')) {
+      return alert('Please input 5 values!');
+    }
+
+    // display created sentences.
+    resultElement.value = createSentence(values);
+  })
+</script>
