@@ -29,7 +29,7 @@ function getTerm(v1, v2, values) {
   const endPrice = values[4];
 
   if (v1 === v2) return `at ${startPrice} from ${startMonth} to ${endMonth}`;
-  else return `from ${startPrice} in ${startMonth} $diff to ${endPrice} in ${endMonth}`;
+  else return `$diff from ${startPrice} in ${startMonth}  to ${endPrice} in ${endMonth}`;
 }
 
 /**
