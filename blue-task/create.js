@@ -1,8 +1,13 @@
-String.prototype.firstUpper = function() {
+// add prototype capitalize the first letter.
+String.prototype.firstUpper = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
 class Content {
+  /**
+   * constructor
+   * @param  {...String} values
+   */
   constructor(...values) {
     this.month = {
       start: values[0],
@@ -15,6 +20,7 @@ class Content {
     };
   }
 
+  // get appropriate verb
   get verb() {
     const diff = this.price.diff;
     if (diff === 0) return 'remained flat';
@@ -22,6 +28,7 @@ class Content {
     else if (diff > 0) return 'fell';
   }
 
+  // get appropriate abverb
   get abverb() {
     const percentage = Math.abs(this.price.diff) / this.price.start;
     if(percentage >= 0.7) return "substantially";
@@ -29,6 +36,7 @@ class Content {
     else return 'slightly';
   }
 
+  // get appropriate term
   get term() {
     const price = this.price;
     const month = this.month;
@@ -40,6 +48,7 @@ class Content {
 class SentenceGenerator {
   /**
    * constructor
+   * @param {String} subject
    * @param {Array<Content>} contents
    */
   constructor(subject, contents) {
@@ -51,6 +60,10 @@ class SentenceGenerator {
     ]
   }
 
+  /**
+   * create subjects
+   * @returns {Array<String>} subjects
+   */
   createSubjects() {
     const [_, multi] = this.subject.match(/^The number of (.+)/);
     return [
@@ -62,22 +75,28 @@ class SentenceGenerator {
     ];
   }
 
-  sentences() {
+  /**
+   * get generated sentences
+   * @returns {Array<String>} sentences
+   */
+  get() {
     const subjects = this.createSubjects();
     return this.contents.map((c, i) => {
       return this.strucutuers[i % this.strucutuers.length]
         .replace('$subject', subjects[i])
         .replace('$verb', c.verb)
         .replace('$adverb', c.abverb)
-        .replace('$term', c.term);
+        .replace('$term', c.term)
+        .replaceAll(/\s+/g, ' ');
     });
   }
 }
 
 /**
- * create appropriate sentence from 11 values
+ * call this function to generate sentences from inputs.
  */
-function createSentences(values) {
+function main(values) {
+  // create cointent data from input value.
   const contents = [
     new Content(...values.slice(1, 5)),
     new Content(...values.slice(3, 7)),
@@ -85,8 +104,7 @@ function createSentences(values) {
     new Content(...values.slice(7, 11)),
     new Content(...values.slice(9)),
   ];
-
   const generator = new SentenceGenerator(values[0], contents);
 
-  return generator.sentences();
+  return generator.get();
 }
