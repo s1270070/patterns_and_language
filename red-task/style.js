@@ -2,7 +2,9 @@ const months = ["Jan", "Feb", "Mar", "Ari", "May", "Jun", "Jul", "Aug", "Sep", "
 
 $(() => {
 
-  createSelectOption();
+  // createSelectOption();
+
+  selectFile();
   
   checkValidation();
 });
@@ -26,14 +28,25 @@ const createMonth = (selectBox) => {
   });
 }
 
+const selectFile = () => {
+  $('.input-file').on('change', function () {
+    const file = $(this).prop('files')[0];
+    $('.selected-file').text(file.name);
+  });
+}
+
 /**
  * Check the input values.
  */
 const checkValidation = () => {
   $('.result').on('click', () => {
-    checkItem();
-    checkMonth();
-    checkValue();
+
+    // File is not selected
+    if ($('.input-file').prop('files').length === 0) {
+      checkItem();
+      checkMonth();
+      checkValue();
+    }
   });
 }
 
