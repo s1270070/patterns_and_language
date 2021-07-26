@@ -1,0 +1,53 @@
+[
+  {
+    "id": 1,
+    "word": "increased",
+    "mean": "positive",
+    "pair": 4
+  },
+  {
+    "id": 2,
+    "word": "rose",
+    "mean": "positive",
+    "pair": 5
+  },
+  {
+    "id": 3,
+    "word": "climbed",
+    "mean": "positive",
+    "pair": 6
+  },
+  {
+    "id": 4,
+    "word": "decreased",
+    "mean": "negative",
+    "pair": 1
+  },
+  {
+    "id": 5,
+    "word": "fell",
+    "mean": "negative",
+    "pair": 2
+  },
+  {
+    "id": 6,
+    "word": "dropped",
+    "mean": "negative",
+    "pair": 3
+  },
+  {
+    "id": 7,
+    "word": "remined stable",
+    "mean": "nenutral"
+  },
+  {
+    "id": 8,
+    "word": "remined steady",
+    "mean": "nenutral"
+  },
+  {
+    "id": 9,
+    "word": "evened out",
+    "mean": "nenutral"
+  }
+]
