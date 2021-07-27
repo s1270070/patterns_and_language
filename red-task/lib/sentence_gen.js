@@ -20,11 +20,11 @@ export class SentenceGen {
     this.index = 0;
 
     this.strucutuers = [
-      "$subject $verb $adverb $term.",
-      "$subject $verb $adverb $term.",
-      "there was a $keiyousi $subject $term.",
-      "$term, $subject $verb $adverb.",
-      "$term, $subject $verb $adverb.",
+      "$subject $adverb $verb $term.",
+      "$term, $subject $adverb $verb.",
+      "there was a $noun $subject $term.",
+      "$subject $adverb $verb $term.",
+      "$term, $subject $adverb $verb.",
     ];
     this.flatTerm = "at $price_start from $month_start to $month_end";
     this.terms = [
@@ -38,7 +38,7 @@ export class SentenceGen {
 
   get term() {
     const item = this.contents[this.index];
-    const strc = item.price.diff == 0 ? this.flatTerm : this.terms[this.index];
+    const strc = item.price.diff == 0 ? this.flatTerm : this.terms.shift();
     return strc
       .replace('$price_start', item.price.start)
       .replace('$price_end', item.price.end)
@@ -65,14 +65,18 @@ export class SentenceGen {
 
   async get() {
     const content = this.contents[this.index];
-    const structure = this.strucutuers[this.index];
-    const verb = await this.store.findVerb(content.price.verbType);
+    const structure = this.strucutuers.shift();
+    const verb = await this.store.findVerb(content.price.meanType);
     const adverb = await this.store.findAdverb(content.price.percentage);
+    const noun = await this.store.findNoun(content.price.meanType);
+    // console.log(content.price.percentage);
+    // console.log(adverb);
     return structure
       .replace('$subject', this.createSubjects()[this.index])
       .replace('$verb', verb.word)
       .replace('$adverb', adverb.word)
       .replace('$term', this.term)
+      .replace('$noun', noun.word)
       .replaceAll(/\s+/g, ' ')
       .replace(/\s+\.$/, '.')
       .firstUpper();

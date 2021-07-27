@@ -18,13 +18,13 @@ export class Content {
       end: Number(values[3].match(/\d+/)),
       get diff() { return this.start - this.end },
       get percentage() { return Math.round((Math.abs(this.diff) / this.start) * 100) },
-      get verbType() {
+      get meanType() {
         if (this.diff < 0) {
-          return Store.verbType.negative;
+          return Store.meanType.negative;
         } else if (this.diff > 0) {
-          return Store.verbType.positive;
+          return Store.meanType.positive;
         }
-        return Store.verbType.nenutral;
+        return Store.meanType.nenutral;
       }
     };
   }
