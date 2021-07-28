@@ -1,4 +1,5 @@
 import { SentenceGen } from './lib/sentence_gen.js'
+import { Graph } from './lib/graph.js'
 
 const subjectElement = document.getElementById('subject');
 const valuesElement = document.querySelectorAll('.input-row .value');
@@ -11,6 +12,11 @@ button.addEventListener('start', async (e) => {
   const subject = subjectElement.value;
   const values = [...valuesElement].map(e => e.value);
 
+  // create graph
+  const graph = new Graph();
+  graph.create(subject, values);
+
+  // create sentences
   const generator = new SentenceGen(subject, values);
   const results = await Promise.all(generator.contents.map(async () => generator.next()));
   outputElement.innerHTML = results.join('<br />');
