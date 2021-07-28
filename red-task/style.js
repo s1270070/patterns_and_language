@@ -25,7 +25,8 @@ $(() => {
 const createSelectOption = () => {
   $('select.value').each(function (index, elm) {
     $(elm).append($('<option>').text(`Month ${index + 1}`).prop('hidden', true));
-    $(elm).append(months.map((e, m) => $('<option>').val(e).text(e).prop('selected', m == index)));
+    $(elm).append(months.map((e, m) => $('<option>').val(e).text(e)));
+    // $(elm).append(months.map((e, m) => $('<option>').val(e).text(e).prop('selected', m == index)));
   });
 }
 
@@ -85,10 +86,4 @@ const checkValue = () => {
   const valid = [...$('input.value').map((idx, elm) => $(elm).val())].every(e => e === '');
   if (valid) alert("Please input \"Value\"!");
   return valid;
-  $('.value').each(function(index, element) {
-    if (element.value === "") {
-      alert("Please input \"Value\"!");
-      return false;
-    }
-  });
 }
