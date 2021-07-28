@@ -30,10 +30,36 @@ const createSelectOption = () => {
   });
 }
 
+class FileReaderEx extends FileReader{
+
+  readAsText(blob){
+    return new Promise((res, rej)=>{
+        super.addEventListener("load", ({target}) => res(target.result));
+        super.addEventListener("error", ({target}) => rej(target.error));
+        super.readAsText(blob);
+    });
+  }
+}
+
 const selectFile = () => {
-  $('.input-file').on('change', function () {
-    const file = $(this).prop('files')[0];
+  var reader = new FileReaderEx();
+  $('.input-file').on('change', async (elm) => {
+    const file = $(elm.target).prop('files')[0];
     $('.selected-file').text(file.name);
+
+    const data = (await reader.readAsText(file))
+      .split(',')
+      .map(s => s.trim())
+      .map(v => months.find(month => month.startsWith(v)) ?? v);
+    const title = data.shift();
+    $('#item').val(title);
+    $('.value').each((idx, elm) => {
+      const value = data[idx] ?? null;
+      if (value !== null) {
+        $(elm).val(data[idx]);
+      }
+    });
+    console.log(data);
   });
 }
 
@@ -46,14 +72,7 @@ const checkValidation = () => {
     .dispatchEvent(new Event('start'));
 
   $('.result').on('click', () => {
-
-    // File is not selected
-    if ($('.input-file').prop('files').length !== 0) {
-      trigger();
-      return;
-    }
-    console.log('a');
-    if ([checkItem(), checkMonth(), checkValue()].some(e => !e)) {
+    if ([checkItem(), checkMonth(), checkValue()].every(e => !e)) {
       trigger();
     }
   });
@@ -63,8 +82,8 @@ const checkValidation = () => {
  * Check the input item.
  */
 const checkItem = () => {
-  if ($('.item-area').val() === "") {
-    alert("Please input \"Item\"!");
+  if ($('#title').val() === "") {
+    alert('Please input "Title"!');
     return false;
   }
   return true;
@@ -74,8 +93,8 @@ const checkItem = () => {
  * Check the input month.
  */
 const checkMonth = () => {
-  const valid = [...$('select').map((idx, elm) => $(elm).val())].every(e => e.match('Month'));
-  if (valid) alert("Please input \"Month\"!");
+  const valid = [...$('select').map((idx, elm) => $(elm).val())].some(e => e.startsWith('Month'));
+  if (valid) alert('Please input "Month"!');
   return valid;
 }
 
@@ -83,7 +102,7 @@ const checkMonth = () => {
  * Check the input value.
  */
 const checkValue = () => {
-  const valid = [...$('input.value').map((idx, elm) => $(elm).val())].every(e => e === '');
+  const valid = [...$('input.value').map((idx, elm) => $(elm).val())].some(e => !/(\d)+/.test(e));
   if (valid) alert("Please input \"Value\"!");
   return valid;
 }

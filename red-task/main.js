@@ -1,6 +1,6 @@
 import { SentenceGen } from './lib/sentence_gen.js'
 
-const subjectElement = document.getElementById('subject');
+const subjectElement = document.getElementById('item');
 const valuesElement = document.querySelectorAll('.input-row .value');
 const outputElement = document.querySelector('.output');
 const button = document.getElementById('result');
