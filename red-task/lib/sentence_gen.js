@@ -103,7 +103,7 @@ export class SentenceGen {
 
   /**
    * get generated sentences
-   * @returns {Array<String>} sentences
+   * @returns {Promise<Array<String>>} sentences
    */
   async next() {
     if (this.index < this.contents.length) {
@@ -111,5 +111,13 @@ export class SentenceGen {
       this.index++;
       return sentence;
     }
+  }
+
+  async getAll() {
+    const results = [];
+    for (let i = 0; i < this.contents.length; i++) {
+      results.push(await this.next());
+    }
+    return results;
   }
 }

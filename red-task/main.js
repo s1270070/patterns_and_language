@@ -12,6 +12,6 @@ button.addEventListener('start', async (e) => {
   const values = [...valuesElement].map(e => e.value);
 
   const generator = new SentenceGen(subject, values);
-  const results = await Promise.all(generator.contents.map(async () => generator.next()));
+  const results = await generator.getAll();
   outputElement.innerHTML = results.join('<br />');
 });
