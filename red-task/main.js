@@ -1,29 +1,17 @@
-import { Store } from './lib/store.js'
-import { Content } from './lib/content.js'
 import { SentenceGen } from './lib/sentence_gen.js'
 
-const inputElement = document.getElementById('input');
-const outputElement = document.getElementById('output');
-const button = document.getElementById('push-btn');
+const subjectElement = document.getElementById('subject');
+const valuesElement = document.querySelectorAll('.input-row .value');
+const outputElement = document.querySelector('.output');
+const button = document.getElementById('result');
 
-button.addEventListener('click', async (e) => {
+button.addEventListener('start', async (e) => {
   // get 5 values.
-  const values = inputElement.value.replaceAll('\n', '').split(',');
-  const store = new Store();
+  console.log('main');
+  const subject = subjectElement.value;
+  const values = [...valuesElement].map(e => e.value);
 
-  // create cointent data from input value.
-  const contents = [
-    new Content(...values.slice(1, 5)),
-    new Content(...values.slice(3, 7)),
-    new Content(...values.slice(5, 9)),
-    new Content(...values.slice(7, 11)),
-    new Content(...values.slice(9)),
-  ];
-
-  const generator = new SentenceGen(values[0], contents);
-  console.log(await generator.next());
-  console.log(await generator.next());
-  console.log(await generator.next());
-  console.log(await generator.next());
-  console.log(await generator.next());
+  const generator = new SentenceGen(subject, values);
+  const results = await Promise.all(generator.contents.map(async () => generator.next()));
+  outputElement.innerHTML = results.join('<br />');
 });

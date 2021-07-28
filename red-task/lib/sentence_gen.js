@@ -1,4 +1,5 @@
 import { Store } from './store.js'
+import { Content } from './content.js'
 
 // add prototype capitalize the first letter.
 String.prototype.firstUpper = function () {
@@ -10,19 +11,27 @@ export class SentenceGen {
   /**
    * constructor
    * @param {String} subject
-   * @param {Array<Content>} contents
+   * @param {Array<String>} values
    */
-  constructor(subject, contents) {
+  constructor(subject, values) {
     this.subject = subject;
-    this.contents = contents;
+    this.contents = [
+    new Content(...values.slice(0, 4)),
+    new Content(...values.slice(2, 6)),
+    new Content(...values.slice(4, 8)),
+    new Content(...values.slice(6, 10)),
+    new Content(...values.slice(8)),
+  ];
 
     this.store = new Store();
     this.index = 0;
 
-    const maxPrice = this.contents.map(c => c.price.start).reduce((e, v) => e > v ? e : v);
-    const maxMonth = this.contents.filter(c => c.price.start === maxPrice).map(c => c.month.start);
-    const minPrice = this.contents.map(c => c.price.start).reduce((e, v) => e < v ? e : v);
-    const minMonth = this.contents.filter(c => c.price.start === maxPrice).map(c => c.month.start);
+    const months = values.filter((_, i) => i % 2 == 0);
+    const prices = values.filter((_, i) => i % 2 == 1).map(Number);
+    const maxPrice = prices.reduce((e, v) => e > v ? e : v);
+    const maxMonth = prices.map((e, i) => (e === maxPrice) ? months[i] : '').filter(e => e !== '');
+    const minPrice =  prices.reduce((e, v) => e < v ? e : v);
+    const minMonth = prices.map((e, i) => (e === minPrice) ? months[i] : '').filter(e => e !== '');
     // console.log(maxMonth);
     this.strucutuers = [
       "$subject $adverb $verb $term.",
