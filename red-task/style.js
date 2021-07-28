@@ -1,30 +1,32 @@
-const months = ["Jan", "Feb", "Mar", "Ari", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const months = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];
 
 $(() => {
 
-  // createSelectOption();
+  createSelectOption();
 
   selectFile();
-  
+
   checkValidation();
 });
 
 const createSelectOption = () => {
-  const selectBoxes = $('select');
-  console.log(selectBoxes);
-
-  // selectBoxes.forEach(selectBox => {
-  //   createMonth(selectBox);
-  // });
-  $('select').each(function(index, element) {
-    createMonth(element);
-  });
-}
-
-const createMonth = (selectBox) => {
-
-  months.forEach(month => {
-    selectBox.append($('<option>').html(month).val(month));
+  $('select.value').each(function (index, elm) {
+    $(elm).append($('<option>').text(`Month ${index + 1}`).prop('hidden', true));
+    $(elm).append(months.map((e, m) => $('<option>').val(e).text(e)));
+    // $(elm).append(months.map((e, m) => $('<option>').val(e).text(e).prop('selected', m == index)));
   });
 }
 
@@ -39,13 +41,20 @@ const selectFile = () => {
  * Check the input values.
  */
 const checkValidation = () => {
+  const trigger = () => document
+    .getElementById('result')
+    .dispatchEvent(new Event('start'));
+
   $('.result').on('click', () => {
 
     // File is not selected
-    if ($('.input-file').prop('files').length === 0) {
-      checkItem();
-      checkMonth();
-      checkValue();
+    if ($('.input-file').prop('files').length !== 0) {
+      trigger();
+      return;
+    }
+    console.log('a');
+    if ([checkItem(), checkMonth(), checkValue()].some(e => !e)) {
+      trigger();
     }
   });
 }
@@ -56,29 +65,25 @@ const checkValidation = () => {
 const checkItem = () => {
   if ($('.item-area').val() === "") {
     alert("Please input \"Item\"!");
+    return false;
   }
+  return true;
 }
 
 /**
  * Check the input month.
  */
 const checkMonth = () => {
-  $('select').each(function(index, element) {
-    if (element.value.match('Month')) {
-      alert("Please input \"Month\"!");
-      return false;
-    }
-  });
+  const valid = [...$('select').map((idx, elm) => $(elm).val())].every(e => e.match('Month'));
+  if (valid) alert("Please input \"Month\"!");
+  return valid;
 }
 
 /**
  * Check the input value.
  */
 const checkValue = () => {
-  $('.value').each(function(index, element) {
-    if (element.value === "") {
-      alert("Please input \"Value\"!");
-      return false;
-    }
-  });
+  const valid = [...$('input.value').map((idx, elm) => $(elm).val())].every(e => e === '');
+  if (valid) alert("Please input \"Value\"!");
+  return valid;
 }
