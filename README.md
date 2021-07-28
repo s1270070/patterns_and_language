@@ -8,3 +8,4 @@
 |orange|https://s1270070.github.io/patterns_and_language/orange-task/|
 |green|https://s1270070.github.io/patterns_and_language/green-task/|
 |blue|https://s1270070.github.io/patterns_and_language/blue-task/|
+|red|https://s1270070.github.io/patterns_and_language/red-task/|
