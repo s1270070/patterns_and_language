@@ -23,6 +23,7 @@ export class SentenceGen {
     new Content(...values.slice(8)),
   ];
 
+    // store of words
     this.store = new Store();
     this.index = 0;
 
@@ -54,6 +55,10 @@ export class SentenceGen {
     ];
   }
 
+  /**
+   * create term
+   * @return {String}
+   */
   get term() {
     const item = this.contents[this.index];
     const strc = item.price.diff == 0 ? this.flatTerm : this.terms.shift();
@@ -81,14 +86,20 @@ export class SentenceGen {
     ];
   }
 
+  /**
+   * create sentence
+   * @returns {Promise<String>}
+   */
   async get() {
+    // get content
     const content = this.contents[this.index];
+    // get structure
     const structure = this.strucutuers.shift();
+    // find appropriate words from store.
     const verb = await this.store.findVerb(content.price.meanType);
     const adverb = await this.store.findAdverb(content.price.percentage);
     const noun = await this.store.findNoun(content.price.meanType);
-    // console.log(content.price.percentage);
-    // console.log(adverb);
+
     return structure
       .replace('$subject', this.createSubjects()[this.index])
       .replace('$verb', verb.word)
@@ -102,8 +113,8 @@ export class SentenceGen {
   }
 
   /**
-   * get generated sentences
-   * @returns {Promise<Array<String>>} sentences
+   * generate a sentence
+   * @returns {Promise<String>} sentences
    */
   async next() {
     if (this.index < this.contents.length) {
@@ -113,6 +124,10 @@ export class SentenceGen {
     }
   }
 
+  /**
+   * generate all sentences from contents.
+   * @returns @returns {Promise<String[]>}
+   */
   async getAll() {
     const results = [];
     for (let i = 0; i < this.contents.length; i++) {

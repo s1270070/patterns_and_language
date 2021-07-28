@@ -37,27 +37,3 @@ export class Content {
     return this.#price;
   }
 }
-
-// // get appropriate verb
-// get verb() {
-//   const diff = this.price.diff;
-//   if (diff === 0) return 'remained flat';
-//   else if (diff < 0) return 'rose';
-//   else if (diff > 0) return 'fell';
-// }
-
-// // get appropriate abverb
-// get abverb() {
-//   const percentage = Math.abs(this.price.diff) / this.price.start;
-//   if (percentage >= 0.7) return "substantially";
-//   else if (percentage >= 0.3) return 'moderately';
-//   else return 'slightly';
-// }
-
-// // get appropriate term
-// get term() {
-//   const price = this.price;
-//   const month = this.month;
-//   if (price.diff == 0) return `at ${price.start} from ${month.start} to ${month.end}`;
-//   else return `from ${price.start} in ${month.start} to ${price.end} in ${month.end}`;
-// }

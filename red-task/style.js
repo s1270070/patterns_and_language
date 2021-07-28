@@ -33,7 +33,7 @@ const createSelectOption = () => {
 class FileReaderEx extends FileReader{
 
   readAsText(blob){
-    return new Promise((res, rej)=>{
+    return new Promise((res, rej) => {
         super.addEventListener("load", ({target}) => res(target.result));
         super.addEventListener("error", ({target}) => rej(target.error));
         super.readAsText(blob);
@@ -43,6 +43,29 @@ class FileReaderEx extends FileReader{
 
 const selectFile = () => {
   var reader = new FileReaderEx();
+
+  const validFileIput = (data) => {
+    const inputMonths = data.filter((_, i) => i % 2 === 1).filter(e => months.includes(e));
+    const inputPrices = data.filter((_, i) => i % 2 === 0).filter(e => e !== '' && 0 < Number(e));
+    console.log(inputMonths);
+    console.log(inputPrices);
+    if (inputMonths.length === 6 && inputPrices.length === 6) {
+      return false;
+    }
+    const comments = [
+      'PLEASE ENTER THE COLLECT INFORMATION.',
+      '',
+      'This system will a accept csv file like the following formats.',
+      '',
+      '--   Format   -----------------------------------------------',
+      'item, month1, price1, month2, price2, ... , month6',
+      '--   Example  -----------------------------------------------',
+      'ex) The number of banana, Jan, 100, Feb, 120, ... , 300',
+    ].join('\n');
+    alert(comments);
+    return true;
+  }
+
   $('.input-file').on('change', async (elm) => {
     const file = $(elm.target).prop('files')[0];
     $('.selected-file').text(file.name);
@@ -51,6 +74,9 @@ const selectFile = () => {
       .split(',')
       .map(s => s.trim())
       .map(v => months.find(month => month.startsWith(v)) ?? v);
+
+    if (validFileIput(data)) return;
+
     const title = data.shift();
     $('#item').val(title);
     $('.value').each((idx, elm) => {
