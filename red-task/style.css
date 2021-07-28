@@ -1,0 +1,48 @@
+.title {
+  margin-left: 25%;
+  /* padding-left: 1%; */
+}
+
+.item {
+  margin: 1% 25% 0 25%;
+}
+
+.item-area {
+  height: 40px;
+  width: 200px
+}
+
+.input-row {
+  margin: 1% 25% 0 25%;
+}
+
+.value {
+  height: 40px;
+}
+
+select {
+  height: 40px;
+}
+
+.file-row {
+  border: 3px solid;
+  display: inline-block;
+  padding: 2px 1em;
+  position: relative;
+}
+.file-row input[type="file"] {
+  opacity: 0;
+  position: absolute;
+}
+
+.button-row {
+  margin-top: 2%;
+  margin-bottom: 2%;
+  text-align: center;
+}
+
+.output {
+  width: 700px;
+  height: 250px;
+  margin: 0 auto;
+}
