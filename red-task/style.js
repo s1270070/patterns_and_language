@@ -72,7 +72,8 @@ const checkValidation = () => {
     .dispatchEvent(new Event('start'));
 
   $('.result').on('click', () => {
-    if ([checkItem(), checkMonth(), checkValue()].every(e => !e)) {
+    if ([checkItem(), checkMonth(), checkValue()].every(e => e === false)) {
+      console.log('trigger');
       trigger();
     }
   });
@@ -82,11 +83,9 @@ const checkValidation = () => {
  * Check the input item.
  */
 const checkItem = () => {
-  if ($('#title').val() === "") {
-    alert('Please input "Title"!');
-    return false;
-  }
-  return true;
+  const valid = $('#title').val() === "";
+  if (valid) alert('Please input "Title"!');
+  return valid;
 }
 
 /**
