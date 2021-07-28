@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="w3.css">
   <link href='https://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
   <script src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
   <script src="style.js"></script>
   <script type="module" src="main.js"></script>
 </head>
@@ -94,6 +95,11 @@
     <button id="result" class="w3-btn w3-white w3-border w3-border-black w3-round-xlarge result">RESULT</button>
   </div>
 
-  <!-- output -->
-  <div class="w3-container w3-border w3-border-teal output"></div>
+  <!-- result -->
+  <div id="result-area" class="w3-row-padding">
+    <div class="w3-half w3-container w3-border w3-border-teal output"></div>
+    <div class="w3-half w3-container w3-border w3-border-teal graph">
+      <canvas id="myLineChart"></canvas>
+    </div>
+  </div>
 </body>
