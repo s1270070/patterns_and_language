@@ -3,41 +3,48 @@
     "id": 1,
     "word": "increase",
     "mean": "positive",
+    "pre": "an",
     "pair": 4
   },
   {
     "id": 2,
     "word": "rise",
     "mean": "positive",
+    "pre": "a",
     "pair": 5
   },
   {
     "id": 3,
     "word": "growth",
     "mean": "positive",
+    "pre": "a",
     "pair": 6
   },
   {
     "id": 4,
     "word": "decrease",
     "mean": "negative",
+    "pre": "a",
     "pair": 1
   },
   {
     "id": 5,
     "word": "fall",
     "mean": "negative",
+    "pre": "a",
     "pair": 2
   },
   {
     "id": 6,
     "word": "drop",
     "mean": "negative",
+    "pre": "a",
     "pair": 3
   },
   {
     "id": 7,
     "word": "remine",
+    "pre": "a",
     "mean": "nenutral"
   }
 ]

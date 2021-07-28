@@ -19,12 +19,21 @@ export class SentenceGen {
     this.store = new Store();
     this.index = 0;
 
+    const maxPrice = this.contents.map(c => c.price.start).reduce((e, v) => e > v ? e : v);
+    const maxMonth = this.contents.filter(c => c.price.start === maxPrice).map(c => c.month.start);
+    const minPrice = this.contents.map(c => c.price.start).reduce((e, v) => e < v ? e : v);
+    const minMonth = this.contents.filter(c => c.price.start === maxPrice).map(c => c.month.start);
+    // console.log(maxMonth);
     this.strucutuers = [
       "$subject $adverb $verb $term.",
       "$term, $subject $adverb $verb.",
-      "there was a $noun $subject $term.",
-      "$subject $adverb $verb $term.",
-      "$term, $subject $adverb $verb.",
+      "there was $noun_pre $noun $subject $term.",
+      minMonth.length === 1
+        ? `$subject bottomed out at ${minPrice} in ${minMonth}.`
+        : "$subject $adverb $verb $term.",
+      maxMonth.length === 1
+        ? `In ${maxMonth}, $subject peaked at ${maxPrice}.`
+        : "$term, $subject $adverb $verb.",
     ];
     this.flatTerm = "at $price_start from $month_start to $month_end";
     this.terms = [
@@ -76,6 +85,7 @@ export class SentenceGen {
       .replace('$verb', verb.word)
       .replace('$adverb', adverb.word)
       .replace('$term', this.term)
+      .replace('$noun_pre', noun.pre)
       .replace('$noun', noun.word)
       .replaceAll(/\s+/g, ' ')
       .replace(/\s+\.$/, '.')
